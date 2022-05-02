@@ -1,19 +1,40 @@
 var startButton = document.querySelector(".start-btn");
 var qi = 0;
+var timerEl = document.getElementById("countdown");
 var questions = [
   {
-    text: "Question 1",
-    choices: ["1", "2", "3", "4"],
+    text: "In the TV sitcom Seinfeld, what is Kramer’s first name?",
+    choices: ["Kessler", "Newman", "Cosmo", "Larry"],
+    answer: "2",
+  },
+  {
+    text: "Who sang the title song for the latest Bond film, No Time to Die?",
+    choices: ["Adele", "Billie Elish", "Sam Smith", "Eminem"],
     answer: "1",
   },
   {
-    text: "Question 2",
-    choices: ["1", "2", "3", "4"],
-    answer: "1",
+    text: "Which Game of Thrones character is known as the Young Wolf?",
+    choices: ["Robb Stark", "Arya Stark", "Gandolf", "Sansa Stark"],
+    answer: "0",
   },
   {
-    text: "Question 3",
-    choices: ["1", "2", "3", "4"],
+    text: "Which one of these characters is not friends with Harry Potter?",
+    choices: [
+      "Ron Weasley",
+      "Neville Longbottom",
+      "Draco Malfoy",
+      "Hermione Granger",
+    ],
+    answer: "2",
+  },
+  {
+    text: "In Pirates of the Caribbean, what was Captain Jack Sparrow’s ship’s name?",
+    choices: [
+      "The Marauder",
+      "The Black Pearl",
+      "The Black Python",
+      "The Slytherin",
+    ],
     answer: "1",
   },
 ];
@@ -53,3 +74,50 @@ function evaluateAnswer() {
     setQuestion();
   }
 }
+
+// Timer that counts down from 5
+function countdown() {
+  var timeLeft = 5;
+
+  // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
+  var timeInterval = setInterval(function () {
+    // As long as the `timeLeft` is greater than 1
+    if (timeLeft > 1) {
+      // Set the `textContent` of `timerEl` to show the remaining seconds
+      timerEl.textContent = timeLeft + " seconds remaining";
+      // Decrement `timeLeft` by 1
+      timeLeft--;
+    } else if (timeLeft === 1) {
+      // When `timeLeft` is equal to 1, rename to 'second' instead of 'seconds'
+      timerEl.textContent = timeLeft + " second remaining";
+      timeLeft--;
+    } else {
+      // Once `timeLeft` gets to 0, set `timerEl` to an empty string
+      timerEl.textContent = "";
+      // Use `clearInterval()` to stop the timer
+      clearInterval(timeInterval);
+      // Call the `displayMessage()` function
+      displayMessage();
+    }
+  }, 1000);
+}
+
+// Displays the message one word at a time
+function displayMessage() {
+  var wordCount = 0;
+
+  // Uses the `setInterval()` method to call a function to be executed every 1000 milliseconds
+  var msgInterval = setInterval(function () {
+    // If there are no more words left in the message
+    if (words[wordCount] === undefined) {
+      // Use `clearInterval()` to stop the timer
+      clearInterval(msgInterval);
+    } else {
+      // Display one word of the message
+      mainEl.textContent = words[wordCount];
+      wordCount++;
+    }
+  }, 1000);
+}
+
+countdown();
