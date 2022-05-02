@@ -1,6 +1,7 @@
 var startButton = document.querySelector(".start-btn");
 var qi = 0;
-var timerEl = document.getElementById("countdown");
+var timerEl = document.getElementById("timer");
+var userScore = 0;
 var questions = [
   {
     text: "In the TV sitcom Seinfeld, what is Kramer’s first name?",
@@ -63,9 +64,11 @@ function evaluateAnswer() {
   console.log(this.value);
 
   if (this.value !== questions[qi].answer) {
-    console.log("wrong");
-  } else {
     console.log("right");
+    alert("Correct!");
+  } else {
+    console.log("wrong");
+    alert("Incorrect-Answer");
   }
   qi++;
   if (qi === questions.length) {
@@ -75,9 +78,9 @@ function evaluateAnswer() {
   }
 }
 
-// Timer that counts down from 5
-function countdown() {
-  var timeLeft = 5;
+// Timer that counts down from 30
+function timer() {
+  var timeLeft = 30;
 
   // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = setInterval(function () {
@@ -102,22 +105,22 @@ function countdown() {
   }, 1000);
 }
 
-// Displays the message one word at a time
-function displayMessage() {
-  var wordCount = 0;
+timer();
 
-  // Uses the `setInterval()` method to call a function to be executed every 1000 milliseconds
-  var msgInterval = setInterval(function () {
-    // If there are no more words left in the message
-    if (words[wordCount] === undefined) {
-      // Use `clearInterval()` to stop the timer
-      clearInterval(msgInterval);
-    } else {
-      // Display one word of the message
-      mainEl.textContent = words[wordCount];
-      wordCount++;
-    }
-  }, 1000);
-}
+// End game
+var endGame = function () {
+  window.alert("The quiz has now ended. Let's see how you did!");
 
-countdown();
+  var highScore = localStorage.getItem("highscore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+
+  var playAgainConfirm = window.confirm("Would you like to play again?");
+
+  if (playAgainConfirm) {
+    startGame();
+  } else {
+    window.alert("Thank you for playing! Come back soon!");
+  }
+};
